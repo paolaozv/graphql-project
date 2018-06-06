@@ -61,8 +61,20 @@ const resolvers = {
   Curso: {
     profesor: () => {
       return {
-        nombre: 'Paola'
+        nombre: 'Paola',
+        nacionalidad: 'Perú'
       }
+    },
+    comentarios: () => {
+      return [{
+        id: 1,
+        nombre: 'Ximena',
+        cuerpo: 'Buen vídeo'
+      }, {
+        id: 2,
+        nombre: 'Pelusa',
+        cuerpo: 'Buen vídeo'
+      }]
     }
   }
 }
