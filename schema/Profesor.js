@@ -17,4 +17,10 @@ module.exports = `
     genero: Genero,
     nacionalidad: String!
   }
+
+  input EditarProfesor {
+    nombre: String
+    genero: Genero,
+    nacionalidad: String
+  }
 `;
