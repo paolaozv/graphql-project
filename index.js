@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const schema = require('./schema');
 
+// Acceso a base de datos
+require('./db/setup');
+
 const app = express();
 
 app.use(

@@ -1,6 +1,8 @@
-const { makeExecutableSchema, addMockFunctionsToSchema } = require('graphql-tools');
+const { makeExecutableSchema } = require('graphql-tools');
 // Library Fake data generator
 const casual = require('casual');
+const Curso = require('./models/Curso');
+const Profesor = require('./models/Profesor');
 
 const typeDefs = `
   # Esto es un curso en el sistema
@@ -41,43 +43,16 @@ const typeDefs = `
   }
 `;
 
-// Type Query son como endpoint
-
+// Type Query son como endpoints
 
 // Resolvers son como los controllers, pueden devolver una promesa
 // Es una capa fina que emula a la capa de controladores en una arquitectura MVC
 const resolvers = {
   Query: {
-    cursos: () => {
-      return [{
-        id: 1,
-        titulo: 'Curso de GraphQL',
-        descripcion: 'Aprendiendo GraphQL'
-      }, {
-        id: 2,
-        titulo: 'Curso de PHP',
-        descripcion: 'Aprendiendo PHP'
-      }]
-    }
-  },
-  Curso: {
-    profesor: () => {
-      return {
-        nombre: 'Paola',
-        nacionalidad: 'Perú'
-      }
-    },
-    comentarios: () => {
-      return [{
-        id: 1,
-        nombre: 'Ximena',
-        cuerpo: 'Buen vídeo'
-      }, {
-        id: 2,
-        nombre: 'Pelusa',
-        cuerpo: 'Buen vídeo'
-      }]
-    }
+    cursos: () => Curso.query().eager('[profesor, comentarios]'),
+    profesores: () => Profesor.query().eager('cursos'),
+    curso: (rootValue, args) => Curso.query().eager('[profesor, comentarios]').findById(args.id),
+    profesor: (rootValue, args) => Profesor.query().eager('cursos').findById(args.id)
   }
 }
 
@@ -85,33 +60,5 @@ const schema = makeExecutableSchema({
   typeDefs,
   resolvers
 });
-
-addMockFunctionsToSchema({
-  schema,
-  mocks: {
-    Curso: () => {
-      return {
-        id: casual.uuid,
-        titulo: casual.sentence,
-        descripcion: casual.sentences(2)
-      }
-    },
-    Profesor: () => {
-      return {
-        nombre: casual.name,
-        nacionalidad: casual.country
-      }
-    },
-    Comentario: () => {
-      return {
-        nombre: casual.name,
-        cuerpo: casual.sentence
-      }
-    }
-  },
-  preserveResolvers: false
-});
-
-// preserveResolvers preserva los datos instaciados en el resolver
 
 module.exports = schema;
