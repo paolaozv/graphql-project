@@ -7,7 +7,8 @@ const typeDefs = `
     titulo: String!
     # Esta es la descripcion del curso
     descripcion: String!
-    rating: Float @deprecated(reason: "No creemos más en los puntajes")
+    profesor: Profesor
+    rating: Float
     comentarios: [Comentario]
   }
 
@@ -38,6 +39,37 @@ const typeDefs = `
   }
 `;
 
-const schema = makeExecutableSchema({ typeDefs });
+// Type Query son como endpoint
+
+
+// Resolvers son como los controllers, pueden devolver una promesa
+// Es una capa fina que emula a la capa de controladores en una arquitectura MVC
+const resolvers = {
+  Query: {
+    cursos: () => {
+      return [{
+        id: 1,
+        titulo: 'Curso de GraphQL',
+        descripcion: 'Aprendiendo GraphQL'
+      }, {
+        id: 2,
+        titulo: 'Curso de PHP',
+        descripcion: 'Aprendiendo PHP'
+      }]
+    }
+  },
+  Curso: {
+    profesor: () => {
+      return {
+        nombre: 'Paola'
+      }
+    }
+  }
+}
+
+const schema = makeExecutableSchema({ 
+  typeDefs,
+  resolvers
+});
 
 module.exports = schema;
