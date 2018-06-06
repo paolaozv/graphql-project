@@ -1,4 +1,6 @@
-const { makeExecutableSchema } = require('graphql-tools');
+const { makeExecutableSchema, addMockFunctionsToSchema } = require('graphql-tools');
+// Library Fake data generator
+const casual = require('casual');
 
 const typeDefs = `
   # Esto es un curso en el sistema
@@ -83,5 +85,33 @@ const schema = makeExecutableSchema({
   typeDefs,
   resolvers
 });
+
+addMockFunctionsToSchema({
+  schema,
+  mocks: {
+    Curso: () => {
+      return {
+        id: casual.uuid,
+        titulo: casual.sentence,
+        descripcion: casual.sentences(2)
+      }
+    },
+    Profesor: () => {
+      return {
+        nombre: casual.name,
+        nacionalidad: casual.country
+      }
+    },
+    Comentario: () => {
+      return {
+        nombre: casual.name,
+        cuerpo: casual.sentence
+      }
+    }
+  },
+  preserveResolvers: false
+});
+
+// preserveResolvers preserva los datos instaciados en el resolver
 
 module.exports = schema;
