@@ -22,5 +22,8 @@ app.use(
 const PORT = 5678;
 
 app.listen(PORT, () => {
-  console.log('Servidor corriendo OK');
+  console.log(`
+    👍 GraphQL corriendo en http://localhost:${PORT}
+    🎉 GraphiQL en http://localhost:${PORT}/graphiql
+    `);
 })
