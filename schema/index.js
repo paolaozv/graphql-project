@@ -16,6 +16,9 @@ const rootQuery = `
     profesorAdd(profesor: NuevoProfesor): Profesor
     profesorEdit(profesorId: Int!, profesor: EditarProfesor): Profesor
     profesorDelete(profesorId: Int!): Profesor
+    cursoAdd(curso: NuevoCurso): Curso
+    cursoEdit(cursoId: Int!, curso: EditarCurso): Curso
+    cursoDelete(cursoId: Int!): Curso
   }
 `;
 

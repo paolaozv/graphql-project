@@ -13,7 +13,10 @@ const resolvers = {
   Mutation: {
     profesorAdd: (_, args) => Profesor.query().insert(args.profesor),
     profesorEdit: (_, args) => Profesor.query().patchAndFetchById(args.profesorId, args.profesor),
-    profesorDelete: (_, args) => Profesor.query().findById(args.profesorId).then((profesor) => Profesor.query().deleteById(args.profesorId).then(() => profesor))
+    profesorDelete: (_, args) => Profesor.query().findById(args.profesorId).then((profesor) => Profesor.query().deleteById(args.profesorId).then(() => profesor)),
+    cursoAdd: (_, args) => Curso.query().insert(args.curso),
+    cursoEdit: (_, args) => Curso.query().patchAndFetchById(args.cursoId, args.curso),
+    cursoDelete: (_, args) => Curso.query().findById(args.cursoId).then((curso) => Curso.query().deleteById(args.cursoId).then(() => curso))
   }
 }
 
