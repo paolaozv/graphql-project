@@ -5,11 +5,15 @@ const Curso = require('./Curso');
 
 //Endpoints
 const rootQuery = `
+
+  union ResultadoBusqueda = Profesor | Curso
+
   type Query {
     cursos: [Curso]
     profesores: [Profesor]
     curso(id: Int): Curso
     profesor(id: Int): Profesor
+    buscar(query: String!): [ResultadoBusqueda]
   }
 
   type Mutation {

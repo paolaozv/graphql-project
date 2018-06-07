@@ -8,7 +8,14 @@ const resolvers = {
     cursos: () => Curso.query().eager('[profesor, comentarios]'),
     profesores: () => Profesor.query().eager('cursos'),
     curso: (rootValue, args) => Curso.query().eager('[profesor, comentarios]').findById(args.id),
-    profesor: (rootValue, args) => Profesor.query().eager('cursos').findById(args.id)
+    profesor: (rootValue, args) => Profesor.query().eager('cursos').findById(args.id),
+    buscar: (_, args) => [Profesor.query().findById(1), Curso.query().findById(1)]
+  },
+  ResultadoBusqueda: {
+    __resolveType: (obj) => {
+      if (obj.nombre) return 'Profesor'
+      return 'Curso'
+    }
   },
   Mutation: {
     profesorAdd: (_, args) => Profesor.query().insert(args.profesor),
